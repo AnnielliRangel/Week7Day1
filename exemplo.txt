@@ -1,0 +1,45 @@
+//Banco de dados
+/*
+const bancoDados = [
+  {
+    id: "12345",
+    name: "Annielli",
+    age: "35 anos",
+    role: "student",
+    active: true,
+    tasks: ["aprender MongoCompass", "rever aula", "assistir o jogo"],
+  },
+];
+
+//Criar a ROTA
+
+
+app.get("/enap", (req, res) => {
+  const mensagemInicial = "Bem vindo ao primeiro servidor";
+  return res.status(200).json({ msg: mensagemInicial, turma: "92WD" });
+});
+
+app.get("/all-users", (req, res) => {
+  const users = bancoDados;
+  return res.status(200).json(users);
+});
+
+//CRUD - create
+app.post("/new-user", (req, res) => {
+  const form = req.body;
+  bancoDados.push(form);
+
+  return res.status(201).json(bancoDados);
+});
+
+//CRUD - delete
+
+app.delete("/delete/:id", (req, res) => {
+  const { id } = req.params;
+  const deleteById = bancoDados.find((user) => user.id === id);
+  const index = bancoDados.indexOf(deleteById);
+  bancoDados.splice(index, 1);
+
+  return res.status(200).json(bancoDados);
+});
+*/
