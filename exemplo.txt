@@ -43,3 +43,37 @@ app.delete("/delete/:id", (req, res) => {
   return res.status(200).json(bancoDados);
 });
 */
+
+
+const processos = [
+  {
+    id: "proc1",
+    documentName: "Licitação curso",
+    status: "Em Andamento",
+    details: "compra de curso capaticação",
+    dateInit: "15/10/2022",
+    comments: ["processo aberto", "assinaturas requeridas", "em execução"],
+    dateEnd: "16/12/2022",
+    setor: "enap",
+  },
+  {
+    id: "proc2",
+    documentName: "Licitação notebook",
+    status: "Em Andamento",
+    details: "compra de notebook",
+    dateInit: "30/11/2022",
+    comments: ["processo aberto", "sem previsão"],
+    dateEnd: "",
+    setor: "tre",
+  },
+  {
+    id: "proc3",
+    documentName: "Licitação ar-condicionado",
+    status: "Finalizado",
+    details: "compra de ar-condicionado",
+    dateInit: "15/11/2022",
+    comments: ["processo aberto", "compra realizada"],
+    dateEnd: "25/11/2022",
+    setor: "trj",
+  },
+];

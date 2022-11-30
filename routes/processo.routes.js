@@ -1,42 +1,76 @@
 import express from "express";
-
+import ProcessoModel from "../model/processo.model.js";
 
 const processoRoute = express.Router();
 
 // Processos
 
-const processos = [
-  {
-    id: "proc1",
-    documentName: "Licitação curso",
-    status: "Em Andamento",
-    details: "compra de curso capaticação",
-    dateInit: "15/10/2022",
-    comments: ["processo aberto", "assinaturas requeridas", "em execução"],
-    dateEnd: "16/12/2022",
-    setor: "enap",
-  },
-  {
-    id: "proc2",
-    documentName: "Licitação notebook",
-    status: "Em Andamento",
-    details: "compra de notebook",
-    dateInit: "30/11/2022",
-    comments: ["processo aberto", "sem previsão"],
-    dateEnd: "",
-    setor: "tre",
-  },
-  {
-    id: "proc3",
-    documentName: "Licitação ar-condicionado",
-    status: "Finalizado",
-    details: "compra de ar-condicionado",
-    dateInit: "15/11/2022",
-    comments: ["processo aberto", "compra realizada"],
-    dateEnd: "25/11/2022",
-    setor: "trj",
-  },
-];
+//CRUD COM MONGO
+processoRoute.post("/create-processo", async (req, res) => {
+  try {
+    const processo = req.body;
+    const novoProcesso = await ProcessoModel.create(processo);
+    return res.status(201).json(novoProcesso);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Processo não criado" });
+  }
+});
+
+processoRoute.get("/all", async (req, res) => {
+  try {
+    const processos = await ProcessoModel.find({});
+    return res.status(200).json(processos);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Algo deu errado" });
+  }
+});
+
+processoRoute.get("/processo/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const processo = await ProcessoModel.findById(id);
+
+    if (!processo) {
+      return res.status(400).json({ msg: "Processo não encontrado" });
+    }
+
+    return res.status(200).json(processo);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.message);
+  }
+});
+
+processoRoute.delete("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteProcesso = await ProcessoModel.findByIdAndDelete(id);
+    const processos = await ProcessoModel.find();
+
+    if (!deleteProcesso) {
+      return res.status(400).json({ msg: "Processo não encontrado" });
+    }
+
+    return res.status(200).json(processos);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
+
+processoRoute.put("/edit/:id", async(req,res)=>{
+  try {
+    const {id} = req.params
+    const updatedProcesso = await ProcessoModel.findByIdAndUpdate(id, {...req.body}, {new:true, runValidators:true})
+    return res.status(200).json(updatedProcesso)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json(error)
+    
+  }
+})
 
 //ITERAÇÂO 1
 
@@ -70,7 +104,7 @@ processoRoute.put("/edit/:id", (req, res) => {
   const editbyId = processos.find((novoProcesso) => novoProcesso.id === id);
   const index = processos.indexOf(editbyId);
 
-  processos[index]= {...editbyId, ...req.body}
+  processos[index] = { ...editbyId, ...req.body };
 
   return res.status(200).json(processos[index]);
 });

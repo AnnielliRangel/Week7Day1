@@ -7,19 +7,21 @@ const processoSchema = new Schema(
       required: true,
       trim: true,
       minLength: 2,
-      maxLength: 20,
+      maxLength: 30,
       lowercase: true,
     },
     status: {
       type: String,
-      required: true,
       trim: true,
-      default: "Em Andamento",
+      enum: ["Aberto", "Finalizado", "Em Andamento"],
+      default: "Aberto",
     },
     details: {
       type: String,
       required: true,
       trim: true,
+      minLength: 10,
+      maxLength: 30,
     },
     dateInit: {
       type: Date,
@@ -34,10 +36,12 @@ const processoSchema = new Schema(
 
     dateEnd: {
       type: Date,
-      required: true,
+      
     },
     setor: {
       type: String,
+      enum: ["TRE", "TRJ", "ENAP"],
+      default:"ENAP",
     },
   },
   {
